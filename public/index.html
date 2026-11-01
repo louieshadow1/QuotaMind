@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>额度一念</title>
+  <link rel="icon" href="/icon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/style.css">
+  <!-- 本地 vendor：ECharts（日历热力图）、Lucide（图标），不依赖运行时 CDN -->
+  <script src="/vendor/echarts.min.js"></script>
+  <script src="/vendor/lucide.min.js"></script>
+</head>
+<body>
+  <div class="startup" id="startup" aria-hidden="true">
+    <div class="startup-inner">
+      <div class="startup-mark"><span></span><span></span><span></span><span></span></div>
+      <div class="startup-name">额度一念</div>
+      <div class="startup-caption">让每一份用量，都清晰可见</div>
+    </div>
+  </div>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo" aria-hidden="true"><i data-lucide="waves"></i></span>
+      <div class="brand-text">
+        <div class="title-row">
+          <h1 id="app-title">额度一念</h1>
+          <button id="title-edit" class="icon-btn" type="button" title="重命名" aria-label="重命名">
+            <i data-lucide="pencil"></i>
+          </button>
+        </div>
+        <p class="sub" id="app-sub">Codex + DeepSeek + OpenCode Go</p>
+      </div>
+    </div>
+    <div class="actions">
+      <span id="updated" class="updated">正在加载…</span>
+      <label class="switch" title="按配置的刷新间隔自动更新">
+        <input id="auto" type="checkbox" checked>
+        <span>自动刷新</span>
+        <span id="countdown" class="countdown"></span>
+      </label>
+      <button id="refresh" class="btn primary" type="button"><i data-lucide="refresh-cw"></i><span>刷新</span></button>
+    </div>
+  </header>
+
+  <div id="banner" class="banner" role="status" hidden></div>
+
+  <main>
+    <section id="usage" class="usage">
+      <div class="usage-head">
+        <h2><i data-lucide="chart-pie"></i>Token 消耗总览</h2>
+        <span id="usage-updated" class="usage-updated">统计中…</span>
+      </div>
+      <div id="usage-cards" class="usage-grid">
+        <div class="skeleton small">正在统计本机 Codex / DeepSeek / OpenCode 用量…</div>
+      </div>
+    </section>
+
+    <section id="total" class="total">
+      <div class="usage-head">
+        <h2><i data-lucide="bar-chart-3"></i>每日总用量</h2>
+        <div class="daily-tools">
+          <select id="total-range" class="select-quiet" aria-label="总用量时间范围">
+            <option value="30" selected>近 30 天</option>
+            <option value="90">近 90 天</option>
+            <option value="all">全部</option>
+          </select>
+          <div class="seg seg-quiet" id="total-mode" role="tablist" aria-label="总用量视图">
+            <button type="button" data-tmode="bar" class="active" role="tab" aria-selected="true">每天</button>
+            <button type="button" data-tmode="cum" role="tab" aria-selected="false">累计</button>
+          </div>
+        </div>
+      </div>
+      <div class="total-card">
+        <div class="total-head">
+          <div class="total-stat">
+            <span class="total-label">合计 Tokens</span>
+            <span id="total-value" class="total-value">—</span>
+            <span id="total-range-label" class="total-sub"></span>
+          </div>
+          <div id="total-legend" class="total-legend"></div>
+        </div>
+        <div id="total-chart" class="total-chart"></div>
+      </div>
+    </section>
+
+    <section id="daily" class="daily">
+      <div class="usage-head">
+        <h2><i data-lucide="calendar-days"></i>每日用量 <span id="daily-detail-count" class="daily-count"></span></h2>
+        <div class="daily-tools">
+          <button type="button" id="daily-toggle" class="btn ghost small" aria-expanded="true">
+            <i data-lucide="layers"></i><span id="daily-toggle-label">分渠道</span>
+          </button>
+          <div class="filter-wrap">
+            <button type="button" id="daily-filter" class="btn ghost small" aria-expanded="false" aria-haspopup="true">
+              <i data-lucide="sliders-horizontal"></i><span id="daily-filter-label">筛选</span>
+            </button>
+            <div id="daily-filter-pop" class="filter-pop" hidden>
+              <div class="filter-head">
+                <span>显示哪些热力图</span>
+                <button type="button" id="daily-filter-all" class="filter-link">全选</button>
+                <button type="button" id="daily-filter-none" class="filter-link">全不选</button>
+              </div>
+              <div id="daily-filter-list" class="filter-list"></div>
+            </div>
+          </div>
+          <select id="daily-range" class="select-quiet" aria-label="每日用量时间范围">
+            <option value="90">近 90 天</option>
+            <option value="371" selected>近一年</option>
+            <option value="all">全部</option>
+          </select>
+          <div class="seg seg-quiet" id="daily-mode" role="tablist" aria-label="每日用量视图">
+            <button type="button" data-mode="day" class="active" role="tab" aria-selected="true">每天</button>
+            <button type="button" data-mode="week" role="tab" aria-selected="false">每周</button>
+            <button type="button" data-mode="cum" role="tab" aria-selected="false">累计</button>
+          </div>
+          <span id="daily-updated" class="usage-updated"></span>
+        </div>
+      </div>
+      <div id="daily-rows" class="daily-rows">
+        <div class="skeleton small">正在统计每日用量…</div>
+      </div>
+    </section>
+
+    <section id="cards" class="cards" aria-live="polite">
+      <div class="skeleton">正在读取额度…</div>
+    </section>
+
+    <section class="panels">
+      <details id="add-panel" class="panel">
+        <summary><i data-lucide="plus-circle"></i>＋ 添加中转站</summary>
+        <form id="add-form" autocomplete="off">
+          <div class="grid2">
+            <label>站点名称
+              <input name="name" required maxlength="60" placeholder="例如：XX 中转站">
+            </label>
+            <label>类型
+              <select name="type" id="relay-type">
+                <option value="newapi-account">New API 账户余额（/api/user/self）</option>
+                <option value="newapi-token">New API 令牌额度（/api/usage/token）</option>
+                <option value="sub2api">Sub2API（/v1/usage）</option>
+                <option value="generic">自定义 HTTP（JSON 点路径）</option>
+              </select>
+            </label>
+          </div>
+          <label>站点地址
+            <input name="baseUrl" required type="url" placeholder="https://relay.example.com">
+          </label>
+          <div class="grid2" id="row-newapi">
+            <label>用户 ID（New-Api-User）
+              <input name="userId" inputmode="numeric" placeholder="New API 账户余额必填">
+            </label>
+            <label>换算系数（1 USD = 多少 quota）
+              <input name="quotaPerUsd" type="number" min="1" value="500000">
+            </label>
+          </div>
+          <label>令牌 / API Key
+            <input name="token" type="password" placeholder="只保存在本机 data/secrets.json">
+          </label>
+          <p class="hint">建议优先用「账户余额」：令牌口径遇到 <code>unlimited_quota</code> 的 Key 读不到剩余额度。</p>
+          <div class="form-actions">
+            <button class="btn primary" type="submit">保存并查询</button>
+            <span id="add-result" class="form-result"></span>
+          </div>
+        </form>
+      </details>
+
+      <details id="codex-panel" class="panel">
+        <summary><i data-lucide="user-round"></i>Codex 账户</summary>
+        <div id="codex-list" class="account-list">加载中…</div>
+        <form id="codex-form" autocomplete="off">
+          <div class="grid2">
+            <label>账户名称
+              <input name="name" maxlength="40" placeholder="例如：工作号、备用号">
+            </label>
+            <label>auth.json 路径（二选一）
+              <input name="authPath" placeholder="~/.codex/accounts/work.json">
+            </label>
+          </div>
+          <label>或直接粘贴 auth.json 内容（二选一，内容只保存在本机）
+            <textarea name="authJson" rows="3" spellcheck="false" placeholder='{"auth_mode":"chatgpt","tokens":{"access_token":"...","account_id":"..."}}'></textarea>
+          </label>
+          <div class="form-actions">
+            <button class="btn primary" type="submit">添加账户</button>
+            <button class="btn" type="button" id="codex-scan">扫描本机</button>
+            <span id="codex-result" class="form-result"></span>
+          </div>
+          <p class="hint">切换 Codex 账号后，面板会自动把当前登录态归档到 <code>data/codex-accounts/</code>（明文、仅本机；可在 <code>data/config.json</code> 设 <code>autoArchive: false</code> 关闭），旧账号的额度卡片会保留。也可以手动粘贴其他机器上的 <code>auth.json</code> 内容添加。扫描只检查是否存在 <code>access_token</code>，不显示令牌内容。</p>
+        </form>
+        <div id="codex-candidates" class="candidates"></div>
+      </details>
+
+      <details id="go-panel" class="panel">
+        <summary><i data-lucide="key-round"></i>OpenCode Go 订阅</summary>
+        <div id="go-list" class="account-list">加载中…</div>
+        <form id="go-form" autocomplete="off">
+          <div class="grid2">
+            <label>订阅名称
+              <input name="name" maxlength="60" placeholder="例如：Opencode Go （谷歌）">
+            </label>
+            <label>DSH 路由 ID（Token 按它归集）
+              <input name="provider" maxlength="60" list="go-providers" value="opencode-go2">
+            </label>
+          </div>
+          <datalist id="go-providers">
+            <option value="opencode-go"></option>
+            <option value="opencode-go2"></option>
+            <option value="opencode-go3"></option>
+          </datalist>
+          <label>Go API Key（oc_sk_…）
+            <input name="key" type="password" placeholder="只保存在本机 data/secrets.json">
+          </label>
+          <div class="form-actions">
+            <button class="btn primary" type="submit">添加订阅</button>
+            <span id="go-result" class="form-result"></span>
+          </div>
+          <p class="hint">每个订阅 = 一把 Go Key + 一个 DSH 路由（<code>opencode-go</code> 对应「谷歌」、<code>opencode-go2</code> 对应「Github」）。面板按路由拆出各订阅的 Token，顶部 OpenCode Go 统计为所有订阅之和。</p>
+        </form>
+      </details>
+
+      <details id="deepseek-platform-panel" class="panel">
+        <summary><i data-lucide="database"></i>DeepSeek 平台登录态（消费 / 余额）</summary>
+        <form id="deepseek-platform-form" autocomplete="off">
+          <label>平台 userToken
+            <input name="token" type="password" placeholder="登录 platform.deepseek.com 后从 localStorage 复制 userToken">
+          </label>
+          <div class="form-actions">
+            <button class="btn primary" type="submit">保存登录态</button>
+            <button class="btn" type="button" id="deepseek-platform-clear">清除</button>
+            <span id="deepseek-platform-result" class="form-result"></span>
+          </div>
+          <p class="hint">打开 <code>platform.deepseek.com</code> → F12 → Application → Local Storage → <code>userToken</code>，复制值粘贴到这里。仅存本机，用于读取官方余额、累计消费和近 30 天用量（私有接口，可能随网站改版失效）。</p>
+        </form>
+      </details>
+
+      <details id="import-panel" class="panel">
+        <summary><i data-lucide="upload"></i>导入历史用量（补齐数据源看不到的旧数据）</summary>
+        <form id="import-form" autocomplete="off">
+          <div class="grid2">
+            <label>来源渠道
+              <select name="channel">
+                <option value="deepseek">DeepSeek</option>
+                <option value="codex">Codex</option>
+                <option value="opencode">OpenCode Go</option>
+                <option value="opencodeOther">OpenCode 其它路由</option>
+              </select>
+            </label>
+            <label>选择文件（可选，.csv / .json）
+              <input type="file" id="import-file" accept=".csv,.json,.txt">
+            </label>
+          </div>
+          <label>数据（可直接粘贴）
+            <textarea name="data" rows="6" placeholder="date,tokens,cost（第三列可省略）&#10;2026-08-01,1200000,0.31&#10;2026-08-02,800000,0.2"></textarea>
+          </label>
+          <div class="form-actions">
+            <button class="btn primary" type="submit">导入</button>
+            <span id="import-result" class="form-result"></span>
+          </div>
+          <p class="hint">CSV 每行 <code>date,tokens[,费用]</code>；JSON 支持 <code>[{"date":"2026-08-01","tokens":1200000,"costCny":0.31}]</code>。导入按「取较大值」合并进 <code>data/daily-history.json</code>（先备份 .bak），不会覆盖更大的历史值。</p>
+        </form>
+      </details>
+
+      <details class="panel">
+        <summary><i data-lucide="info"></i>说明</summary>
+        <ul class="help">
+          <li>Codex 额度读取本机 <code>~/.codex/auth.json</code> 的 OAuth 登录态，调用官方 <code>/backend-api/wham/usage</code>（只读，不会写回登录态）。是否需要代理取决于网络环境；可参考使用手册配置。</li>
+          <li>OpenCode Go 读取 <code>https://opencode.ai/zen/go/v1/usage</code>，显示 5 小时 / 每周 / 每月三个窗口。</li>
+          <li>中转站余额通过站点接口查询；New API 默认 <code>1 USD = 500000 quota</code>，不同站点可在添加时改系数。</li>
+          <li>所有数据与令牌只在本机；服务只监听 <code>127.0.0.1</code>。数据目录：<code id="data-dir">…</code></li>
+          <li>没看过引导？<button type="button" id="reopen-onboarding" class="inline-link">重新打开使用介绍</button></li>
+        </ul>
+      </details>
+    </section>
+  <!-- 首次使用引导 -->
+  <div id="onboarding" class="onboarding" hidden>
+    <div class="ob-card" role="dialog" aria-modal="true" aria-labelledby="ob-title">
+      <div class="ob-top"><span class="ob-step" id="ob-step-label">01 / 03</span><span class="ob-progress"><i id="ob-progress-bar"></i></span><button type="button" class="ob-close" id="ob-skip">跳过介绍</button></div>
+      <div class="ob-body">
+        <section class="ob-slide" data-step="0">
+          <div class="ob-welcome-art" aria-hidden="true"><div class="ob-mini-window"><div class="ob-mini-head"><i></i><i></i><i></i><span></span></div><div class="ob-mini-layout"><div class="ob-mini-total"><small>用量概览</small><strong>一目了然</strong><div class="ob-mini-bars"><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="ob-mini-side"><b></b><b></b><b></b></div></div></div><span class="ob-example">界面示意</span></div>
+          <span class="ob-eyebrow">欢迎使用 额度一念</span>
+          <h2 id="ob-title">你的额度，一眼看清。</h2>
+          <p class="ob-lead">把常用平台的额度和用量放在一起，打开页面就能查看。</p>
+          <label class="ob-field"><span>给面板起个名字 <small>（选填，以后也可以修改）</small></span><input id="ob-name" type="text" maxlength="40" placeholder="我的额度面板" autocomplete="off"></label>
+        </section>
+        <section class="ob-slide" data-step="1" hidden>
+          <span class="ob-eyebrow">第一步 · 选择来源</span><h2 id="ob-title-1">从你正在使用的平台开始</h2>
+          <p class="ob-lead">选择一个来源，结束介绍后会为你打开对应的设置。暂时不选也没关系。</p>
+          <div class="ob-source-grid" aria-label="选择要配置的平台">
+            <button type="button" class="ob-source" data-ob-panel="codex-panel" aria-pressed="false"><span class="ob-source-icon codex">C</span><span><b>Codex</b><small>查看账户额度</small></span><span class="ob-source-arrow">↗</span></button>
+            <button type="button" class="ob-source" data-ob-panel="go-panel" aria-pressed="false"><span class="ob-source-icon go">G</span><span><b>OpenCode Go</b><small>添加订阅 Key</small></span><span class="ob-source-arrow">↗</span></button>
+            <button type="button" class="ob-source" data-ob-panel="deepseek-platform-panel" aria-pressed="false"><span class="ob-source-icon ds">D</span><span><b>DeepSeek</b><small>查看平台余额</small></span><span class="ob-source-arrow">↗</span></button>
+            <button type="button" class="ob-source" data-ob-panel="add-panel" aria-pressed="false"><span class="ob-source-icon relay">＋</span><span><b>中转站</b><small>添加站点与令牌</small></span><span class="ob-source-arrow">↗</span></button>
+          </div><p class="ob-note">只需配置你用到的来源；其他来源可以以后再添加。</p>
+        </section>
+        <section class="ob-slide" data-step="2" hidden>
+          <span class="ob-eyebrow">第二步 · 认识面板</span><h2 id="ob-title-2">开始之后，看这三个地方</h2>
+          <p class="ob-lead">从整体到细节，慢慢探索就好。</p>
+          <div class="ob-guide-list"><div><span>01</span><p><b>看总览</b><small>在页面上方查看汇总和每日趋势。</small></p></div><div><span>02</span><p><b>看额度</b><small>在额度卡片中查看各来源的状态和剩余额度。</small></p></div><div><span>03</span><p><b>调整设置</b><small>在页面下方添加来源；在「说明」中可重新打开介绍。</small></p></div></div>
+          <p class="ob-privacy">配置和凭据保存在本机；查询时会连接你使用的平台。</p>
+        </section>
+      </div>
+      <div class="ob-foot"><div class="ob-dots" id="ob-dots" aria-hidden="true"></div><div class="ob-actions"><button type="button" class="btn ghost small" id="ob-prev">上一步</button><button type="button" class="btn primary small" id="ob-next">下一步</button></div></div>
+    </div>
+  </div>
+
+  </main>
+
+  <footer class="footer">额度一念 · 本地运行 · 按配置向服务商查询</footer>
+  <script src="/app.js" type="module"></script>
+</body>
+</html>

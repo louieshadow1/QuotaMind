@@ -1,0 +1,12 @@
+node_modules/
+# 整个运行时数据目录默认忽略，只保留示例和占位文件
+/data/*
+!/data/.gitkeep
+!/data/config.example.json
+.env
+.env.*
+*.pem
+*.key
+*.log
+.DS_Store
+Thumbs.db

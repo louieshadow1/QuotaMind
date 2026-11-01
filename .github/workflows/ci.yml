@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    name: Node ${{ matrix.node }} / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: [20, 22, 24]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: 语法检查
+        run: |
+          node --check server.mjs
+          node --check lib/config.mjs
+          node --check lib/adapters.mjs
+          node --check lib/codex.mjs
+          node --check lib/usage.mjs
+      - name: 单元 / 集成测试（零依赖，不需要 npm install）
+        run: node --test

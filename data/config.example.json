@@ -1,0 +1,40 @@
+{
+  "port": 8799,
+  "refreshSeconds": 60,
+  "quotaPerUsd": 500000,
+  "proxy": "auto",
+  "providers": {
+    "codex": {
+      "enabled": true,
+      "authPath": "~/.codex/auth.json",
+      "liveEnabled": true,
+      "liveName": "当前登录",
+      "autoArchive": true,
+      "accounts": []
+    },
+    "opencodeGo": {
+      "enabled": true,
+      "subscriptions": [
+        {
+          "id": "go-1",
+          "name": "OpenCode Go（订阅 A）",
+          "provider": "opencode-go",
+          "keyRef": "OPENCODE_GO_KEY_A"
+        },
+        {
+          "id": "go-2",
+          "name": "OpenCode Go（订阅 B）",
+          "provider": "opencode-go2",
+          "keyRef": "OPENCODE_GO_KEY_B"
+        }
+      ]
+    },
+    "deepseek": {
+      "enabled": false
+    },
+    "deepseekPlatform": {
+      "enabled": true
+    },
+    "relays": []
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "quota-board",
+  "version": "1.8.1",
+  "private": true,
+  "type": "module",
+  "description": "额度一念：本地查看中转站、Codex、OpenCode Go 和 DeepSeek 的额度与用量",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "keywords": [
+    "quota",
+    "codex",
+    "opencode",
+    "deepseek",
+    "dashboard",
+    "local-first"
+  ]
+}
