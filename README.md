@@ -19,7 +19,7 @@
 
 <p align="center"><sub>Windows x64 · 自带 Node.js · 安装包尚未签名 &nbsp;|&nbsp; macOS / Linux 可从源码运行</sub></p>
 
-![额度一念用量总览](docs/media/02-总览.png)
+![额度一念：用量一页看清，记录冬夏春秋](docs/media/quotamind-cover.png)
 
 <p align="center"><sub>界面示意图 · 账号与凭据已隐藏 · 数字为演示用合成数据</sub></p>
 

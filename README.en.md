@@ -11,7 +11,7 @@
   &nbsp; · &nbsp; <a href="#run-from-source">Run from source</a>
 </p>
 
-![QuotaMind overview, with demonstration data](docs/media/02-总览.png)
+![QuotaMind: AI usage in one place](docs/media/quotamind-cover.png)
 
 <p align="center"><sub>Interface preview · account details hidden · numbers are simulated</sub></p>
 
