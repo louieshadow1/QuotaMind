@@ -107,10 +107,11 @@ Windows 也可以双击 `start.cmd`；macOS 和 Linux 可以在项目目录运�
 <details>
 <summary><strong>第一次使用：引导与配置</strong></summary>
 
-第一次打开，跟着三页介绍走一遍就好：下面是步骤示意。
+第一次打开，跟着三页介绍走一遍就好。下图是在演示环境中渲染的软件界面，不含真实账号数据；点击可查看大图。
 
 | 01 · 欢迎与命名 | 02 · 选择来源 | 03 · 认识面板 |
 | :--- | :--- | :--- |
+| [![欢迎与命名](docs/media/onboarding-1.png)](docs/media/onboarding-1.png) | [![选择来源](docs/media/onboarding-2.png)](docs/media/onboarding-2.png) | [![认识面板](docs/media/onboarding-3.png)](docs/media/onboarding-3.png) |
 | 给面板起个喜欢的名字，也可以暂时留空，以后再改。 | 选择正在使用的平台；不需要一次配完，暂时跳过也可以。 | 看看总览、额度卡片和设置在哪里，然后开始使用。 |
 
 介绍结束后，如果选择了来源，会打开对应设置。还没有准备好凭据？可以之后再添加。
