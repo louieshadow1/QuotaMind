@@ -2,29 +2,32 @@
 
 <p align="center">
   <strong>QuotaMind</strong><br>
-  把分散的额度与用量，放在一起看。
+  把分散的额度和用量放在一起，也把每一天的使用留在这里。
 </p>
 
 <p align="center">
-  <a href="#怎么开始">快速开始</a> ·
-  <a href="#支持哪些来源">支持的来源</a> ·
-  <a href="#看看它长什么样">使用画面</a> ·
+  <a href="https://github.com/louieshadow1/QuotaMind/releases/latest"><strong>下载 Windows 安装包</strong></a>
+  &nbsp;·&nbsp;
+  <a href="#怎么开始">源码运行</a>
+  &nbsp;·&nbsp;
+  <a href="#支持哪些来源">支持的来源</a>
+  &nbsp;·&nbsp;
   <a href="#关于隐私和安全">隐私与安全</a>
 </p>
 
-**[下载 Windows 安装包](https://github.com/louieshadow1/QuotaMind/releases/latest)** · [macOS / Linux 源码运行](#怎么开始) · [支持的来源](#支持哪些来源)
-
-Windows 安装包自带 Node.js，适用于 64 位系统；目前尚未数字签名。macOS / Linux 可从源码运行，图形界面和真实账号场景仍需进一步实机验证。
+<p align="center"><sub>Windows x64 · 自带 Node.js · 安装包尚未签名 &nbsp;|&nbsp; macOS / Linux 可从源码运行</sub></p>
 
 ![额度一念用量总览](docs/media/02-总览.png)
 
 <p align="center"><sub>界面示意图 · 账号与凭据已隐藏 · 数字为演示用合成数据</sub></p>
 
-用的 AI 工具多了，想看看还剩多少额度，常常要分别打开好几个网站。想回头看看某一天用了多少，又得去翻账单和日志。
+用的 AI 工具多了，要看剩余额度，常常得打开好几个网站；想看看哪一天用得多，又要回去翻记录。
 
-额度一念把 Codex、OpenCode Go、DeepSeek 和中转站中能取得的额度、余额和用量放到同一个页面。它运行在自己的电脑上，需要时打开浏览器，看一眼现在，也能翻翻过去。
+额度一念把 **Codex、OpenCode Go、DeepSeek 和中转站**中能取得的额度、余额和用量，放到同一个本地页面。需要时打开看一眼，也能回头看看走过的每一天。
 
-> 添加使用的来源，用量一页看清。看见每日的努力，记录冬夏春秋。
+<p align="center"><em>添加使用的来源，用量一页看清。看见每日的努力，记录冬夏春秋。</em></p>
+
+<p align="center"><a href="docs/media/quotamind-demo-17s.mp4">▶ 观看 17 秒介绍片</a> &nbsp;·&nbsp; <a href="#看看它长什么样">看看各个功能</a></p>
 
 ## 能用它做什么？
 
@@ -37,9 +40,19 @@ Windows 安装包自带 Node.js，适用于 64 位系统；目前尚未数字签
 
 ## 怎么开始
 
-源码需要 **Node.js 20 或更高版本**。项目已带上前端需要的文件，不用先跑 `npm install`，也不需要构建前端。
+### Windows 安装版
 
-也可以克隆源码：
+1. 前往 [最新版本](https://github.com/louieshadow1/QuotaMind/releases/latest)，下载 `QuotaMind-Setup.exe`。
+2. 如果之前打开过额度一念，先退出旧版；双击安装程序。
+3. 安装完成后，从 Windows 开始菜单打开「额度一念」。
+
+安装包内置 Node.js，不用另行安装。当前安装包尚未数字签名，Windows 可能显示未知发布者提示。
+
+### 从源码运行
+
+需要 **Node.js 20 或更高版本**。前端文件已随源码提供，不用先运行 `npm install`，也不需要构建前端。
+
+克隆源码并启动：
 
 ```bash
 git clone https://github.com/louieshadow1/QuotaMind.git quota-board
@@ -80,16 +93,27 @@ Windows 也可以双击 `start.cmd`；macOS 和 Linux 可以在项目目录运�
 
 每天用了多少、哪些日子用得多，可以从趋势图和热力图里慢慢看。
 
-![每日总用量：按来源查看趋势](docs/media/03-每日总用量.png)
-
-![每日用量：按来源查看热力图](docs/media/04-每日热力图.png)
+<table>
+  <tr>
+    <td width="50%"><img src="docs/media/03-每日总用量.png" alt="每日总用量趋势" /></td>
+    <td width="50%"><img src="docs/media/04-每日热力图.png" alt="每日用量热力图" /></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>每日趋势 · 看看什么时候用得多</sub></td>
+    <td align="center"><sub>用量热力图 · 记录冬夏春秋</sub></td>
+  </tr>
+</table>
 
 <details>
 <summary><strong>第一次使用：引导与配置</strong></summary>
 
-打开后跟着引导选一个来源；不用一次把所有账号都配好。
+第一次打开，跟着三页介绍走一遍就好：下面是步骤示意。
 
-首次引导共三步，按提示选择来源；没有准备好凭据时可以先跳过。
+| 01 · 欢迎与命名 | 02 · 选择来源 | 03 · 认识面板 |
+| :--- | :--- | :--- |
+| 给面板起个喜欢的名字，也可以暂时留空，以后再改。 | 选择正在使用的平台；不需要一次配完，暂时跳过也可以。 | 看看总览、额度卡片和设置在哪里，然后开始使用。 |
+
+介绍结束后，如果选择了来源，会打开对应设置。还没有准备好凭据？可以之后再添加。
 
 ![配置来源](docs/media/06-配置面板.png)
 
