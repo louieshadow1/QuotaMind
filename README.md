@@ -12,6 +12,10 @@
   <a href="#关于隐私和安全">隐私与安全</a>
 </p>
 
+**[下载 Windows 安装包](https://github.com/louieshadow1/QuotaMind/releases/latest)** · [macOS / Linux 源码运行](#怎么开始) · [支持的来源](#支持哪些来源)
+
+Windows 安装包自带 Node.js，适用于 64 位系统；目前尚未数字签名。macOS / Linux 可从源码运行，图形界面和真实账号场景仍需进一步实机验证。
+
 ![额度一念用量总览](docs/media/02-总览.png)
 
 <p align="center"><sub>界面示意图 · 账号与凭据已隐藏 · 数字为演示用合成数据</sub></p>
@@ -35,7 +39,7 @@
 
 源码需要 **Node.js 20 或更高版本**。项目已带上前端需要的文件，不用先跑 `npm install`，也不需要构建前端。
 
-如果你有仓库的访问权限，可以克隆源码：
+也可以克隆源码：
 
 ```bash
 git clone https://github.com/louieshadow1/QuotaMind.git quota-board
@@ -85,9 +89,7 @@ Windows 也可以双击 `start.cmd`；macOS 和 Linux 可以在项目目录运�
 
 打开后跟着引导选一个来源；不用一次把所有账号都配好。
 
-![首次引导](docs/media/01-引导.png)
-
-注：图中写了“五步”，当前页面的首次引导实际为三步，请以软件界面为准。
+首次引导共三步，按提示选择来源；没有准备好凭据时可以先跳过。
 
 ![配置来源](docs/media/06-配置面板.png)
 
@@ -108,11 +110,7 @@ Windows 也可以双击 `start.cmd`；macOS 和 Linux 可以在项目目录运�
 
 ### 17 秒介绍片
 
-[![点击观看额度一念功能介绍](docs/media/视频封面.png)](docs/media/quotamind-demo-17s.mp4)
-
-添加来源、查看用量、回顾每日趋势，再把记录留给冬夏春秋。
-
-> 视频中的账号信息已隐藏；用量数字来自真实使用记录。
+演示视频正在更新，之后会使用模拟数据展示添加来源、查看用量和每日趋势。
 
 ## 这些数据是从哪里来的？
 
