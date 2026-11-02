@@ -1,5 +1,7 @@
 <h1 align="center">额度一念</h1>
 
+<p align="center"><a href="README.en.md">English</a> · 简体中文</p>
+
 <p align="center">
   <strong>QuotaMind</strong><br>
   把分散的额度和用量放在一起，也把每一天的使用留在这里。
