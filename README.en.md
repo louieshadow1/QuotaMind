@@ -59,6 +59,32 @@ macOS and Linux support running from source; automated tests have run on all thr
 | DeepSeek platform | Available balance, cumulative spending and usage. | Requires the relevant platform login; available data and interfaces may change. |
 | Relay services | Account balance or token quota for configured services. | Supports New API account/token, Sub2API and custom HTTP JSON. Available fields and conversion depend on the service. |
 
+## Frequently asked questions
+
+<details>
+<summary><strong>Can I look around before adding an API key?</strong></summary>
+
+Yes. Skip the introduction and configure a source later from the settings near the bottom of the page. An unconfigured source may not show a quota.
+</details>
+
+<details>
+<summary><strong>Why does Windows show an unknown-publisher warning?</strong></summary>
+
+The installer is not currently digitally signed. Download it from the project's [Releases page](https://github.com/louieshadow1/QuotaMind/releases/latest) and, if desired, compare its SHA-256 hash with the value published there. You can also [run from source](#run-from-source).
+</details>
+
+<details>
+<summary><strong>Why is a figure missing or different from the provider's page?</strong></summary>
+
+Check the card's status, source configuration, login and network. Official responses, local logs, estimates and historical snapshots can cover different things. Refer to the provider for the final bill.
+</details>
+
+<details>
+<summary><strong>Can I reopen the introduction?</strong></summary>
+
+Yes. Open the “说明” (Help) panel near the bottom of the page and choose to reopen the introduction.
+</details>
+
 ## Privacy and data
 
 The service listens on `127.0.0.1` by default. Configuration, tokens and login snapshots may be stored in the local `data/` directory, and other programs with access to those files may be able to read them. When checking a quota, the app sends the required credentials to the provider or relay you configured. Choose trusted endpoints and never share your real `data/` folder, credentials or logs.

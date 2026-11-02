@@ -141,6 +141,38 @@ Windows 也可以双击 `start.cmd`；macOS 和 Linux 可以在项目目录运�
 
 添加来源、查看用量、回顾每日趋势，记录冬夏春秋。视频使用模拟数据，并保留中文配音。
 
+## 常见问题
+
+<details>
+<summary><strong>第一次打开，还没有准备好 Key，可以先用吗？</strong></summary>
+
+可以先跳过引导，之后在页面下方选择需要的来源并填写配置。没有配置或没有可用数据的来源，不一定会显示额度。
+</details>
+
+<details>
+<summary><strong>Windows 提示“未知发布者”怎么办？</strong></summary>
+
+目前的安装包尚未数字签名。请从本仓库的 [Releases 页面](https://github.com/louieshadow1/QuotaMind/releases/latest)下载，并可对照发布页上的 SHA-256 校验值检查文件。也可以选择[从源码运行](#从源码运行)。
+</details>
+
+<details>
+<summary><strong>为什么数字是空的，或者和官方页面不一样？</strong></summary>
+
+先查看卡片上的状态和错误提示，检查来源配置、登录状态以及网络连接。不同来源的数据口径不同：实时结果、本机日志统计、估算值和历史快照不一定一致。账单以服务商的数据为准。
+</details>
+
+<details>
+<summary><strong>怎样重新查看首次使用介绍？</strong></summary>
+
+在页面下方打开「说明」，选择重新打开使用介绍。
+</details>
+
+<details>
+<summary><strong>我的配置和用量记录存在哪里？</strong></summary>
+
+默认保存在运行目录的 `data/` 中；Windows 安装版使用自己的安装目录。查询时，程序会向你配置的服务商发送必要的请求和凭据。请不要分享真实的配置文件、登录态和日志，也请另行备份重要历史。详见[隐私与安全](#关于隐私和安全)。
+</details>
+
 ## 这些数据是从哪里来的？
 
 面板里的数字并非都来自同一个地方。
