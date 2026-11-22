@@ -40,6 +40,10 @@
 
 它适合个人日常查看，不能替代各平台的正式账单。
 
+## v1.9.2 更新了什么
+
+「管理 → 使用说明」重新整理了各模块的入口、用途和操作步骤。三页使用介绍也已更新，可随时重开。OpenCode Go 小卡的说明补上各订阅的续订账期、月总额度估算的口径和 CSV 备选入口。[下载 v1.9.2 安装包或源码](https://github.com/louieshadow1/QuotaMind/releases/tag/v1.9.2)。
+
 ## v1.9.1 更新了什么
 
 ![额度一念 v1.9.1 五项功能更新。界面为示意，数值为模拟数据。](docs/media/quotamind-v1.9.1-highlights.png)
@@ -61,7 +65,7 @@
 
 ### Windows 安装版
 
-1. 前往 [v1.9.1 发布页](https://github.com/louieshadow1/QuotaMind/releases/tag/v1.9.1)，从 Assets 下载 `QuotaMind-Setup.exe`。
+1. 前往 [v1.9.2 发布页](https://github.com/louieshadow1/QuotaMind/releases/tag/v1.9.2)，从 Assets 下载 `QuotaMind-Setup.exe`。
 2. 覆盖升级前先退出旧版。托盘版可右键退出，终端版可按 `Ctrl+C`，然后双击安装程序。
 3. 旧版使用默认位置时选「是」，沿用 `%LOCALAPPDATA%\quota-board`。旧版装在自选位置时选「否」，再选择原来含 `server.mjs` 和 `package.json` 的目录。
 4. 从 Windows 开始菜单打开「额度一念」。覆盖同一目录时，原账号、密钥、配置和用量历史继续沿用。
