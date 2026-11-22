@@ -485,14 +485,39 @@
           <p id="theme-status" class="appearance-status" role="status" aria-live="polite">正在读取配色…</p>
       </section>
 
-      <section id="help" class="panel dashboard-settings" aria-label="使用说明" data-management-view hidden>
+      <section id="help" class="panel dashboard-settings help-guide" aria-label="使用说明" data-management-view hidden>
+        <section class="help-section" aria-labelledby="help-view-title">
+          <h2 id="help-view-title">查看用量与额度</h2>
           <ul class="help">
-            <li>Codex 额度读取本机 <code>~/.codex/auth.json</code> 的 OAuth 登录态，调用官方 <code>/backend-api/wham/usage</code>（只读，不会写回登录态）。该域名必须走代理：请用 <code>start.cmd</code> 启动（自带 <code>--use-env-proxy</code> + 系统代理）。</li>
-            <li>OpenCode Go 读取 <code>https://opencode.ai/zen/go/v1/usage</code>，显示 5 小时 / 每周 / 每月三个窗口。</li>
-            <li>中转站余额通过站点接口查询；New API 默认 <code>1 USD = 500000 quota</code>，不同站点可在添加时改系数。</li>
-            <li>所有数据与令牌只在本机；服务只监听 <code>127.0.0.1</code>。数据目录：<code id="data-dir">…</code></li>
-            <li>没看过引导？<button type="button" id="reopen-onboarding" class="inline-link">重新打开使用介绍</button></li>
+            <li>在<a class="inline-link" href="#usage">总览</a>查看各来源的累计 Token 用量和热力图。用「筛选」选择要显示的渠道。</li>
+            <li>在<a class="inline-link" href="#total">用量趋势</a>查看每天或累计的总用量。下方「用量占比」环形图按来源汇总全部已记录的 Token。</li>
+            <li>在<a class="inline-link" href="#quota">账户额度</a>查看各账号的已用比例、余额或重置时间。Codex 会显示识别到的套餐（如 ChatGPT Pro），额度窗口以卡片为准。右上角可手动刷新或开启自动刷新。</li>
+            <li><a class="inline-link" href="/widget.html" target="_blank" rel="noopener">打开额度小窗</a>，可放在独立浏览器窗口里，随时查看常用额度。</li>
           </ul>
+        </section>
+        <section class="help-section" aria-labelledby="help-sources-title">
+          <h2 id="help-sources-title">添加和管理来源</h2>
+          <ul class="help">
+            <li><a class="inline-link" href="#codex-panel">Codex 账户</a>默认读取本机 Codex 的登录状态。要同时查看多个账号，可用设备码登录新增账号，或添加其它登录文件。</li>
+            <li><a class="inline-link" href="#go-panel">OpenCode Go 订阅</a>可逐条添加，每条使用自己的 Go API Key 和 DSH 路由 ID。账户额度卡显示 5 小时、每周和每月的额度。</li>
+            <li>有官网用量明细时，每条 Go 订阅按自己的续订账期显示预计扣减最多的三个模型。百分比以该订阅<strong>本期月总额度</strong>为分母，卡片标为「估算」。同步成功时显示「官网自动更新」，也可从对应订阅卡导入该工作区的官网用量 CSV。</li>
+            <li><a class="inline-link" href="#deepseek-platform-panel">DeepSeek 平台登录态</a>保存后可查看官方余额、累计消费和近期用量。</li>
+            <li><a class="inline-link" href="#add-panel">添加中转站</a>时选择站点类型并填写地址和令牌。New API 默认按 1 USD = 500000 quota 换算，可按站点调整。</li>
+          </ul>
+        </section>
+        <section class="help-section" aria-labelledby="help-settings-title">
+          <h2 id="help-settings-title">导入历史和调整外观</h2>
+          <ul class="help">
+            <li>在<a class="inline-link" href="#import-panel">历史导入</a>可上传或粘贴每日用量 CSV / JSON。导入前会备份，已有日期按较大的数值合并。</li>
+            <li>在<a class="inline-link" href="#appearance">外观配色</a>可切换浅色、深色或跟随系统，也可以选主题、调整强调色和各模块颜色。额度小窗沿用同一套配色。</li>
+          </ul>
+        </section>
+        <section class="help-section" aria-labelledby="help-local-title">
+          <h2 id="help-local-title">本机数据</h2>
+          <p class="help-local">配置、历史和保存的凭据留在本机。额度一念查询时会连接相应平台，面板只监听 <code>127.0.0.1</code>。</p>
+          <p class="help-local">数据目录 <code id="data-dir">…</code></p>
+          <button type="button" id="reopen-onboarding" class="inline-link">重新打开使用介绍</button>
+        </section>
       </section>
     </section>
 
@@ -503,26 +528,29 @@
       <div class="ob-body">
         <section class="ob-slide" data-step="0">
           <div class="ob-welcome-art" aria-hidden="true"><div class="ob-mini-window"><div class="ob-mini-head"><i></i><i></i><i></i><span></span></div><div class="ob-mini-layout"><div class="ob-mini-total"><small>用量概览</small><strong>一目了然</strong><div class="ob-mini-bars"><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="ob-mini-side"><b></b><b></b><b></b></div></div></div><span class="ob-example">界面示意</span></div>
-          <span class="ob-eyebrow">欢迎使用 QUOTA BOARD</span>
-          <h2 id="ob-title">你的额度，一眼看清。</h2>
-          <p class="ob-lead">把常用平台的额度和用量放在一起，打开页面就能查看。</p>
+          <span class="ob-eyebrow">欢迎使用额度一念 · QuotaMind</span>
+          <h2 id="ob-title">在一个面板查看用量和额度</h2>
+          <p class="ob-lead">看累计 Token 用量、账号余额和额度重置时间，也可以用独立小窗随时查看常用额度。</p>
           <label class="ob-field"><span>给面板起个名字 <small>（选填，以后也可以修改）</small></span><input id="ob-name" type="text" maxlength="40" placeholder="我的额度面板" autocomplete="off"></label>
         </section>
         <section class="ob-slide" data-step="1" hidden>
-          <span class="ob-eyebrow">第一步 · 选择来源</span><h2 id="ob-title-1">从你正在使用的平台开始</h2>
-          <p class="ob-lead">选择一个来源，结束介绍后会为你打开对应的设置。暂时不选也没关系。</p>
+          <h2 id="ob-title-1">选择要配置的来源</h2>
+          <p class="ob-lead">可选一个来源，点「开始使用」后会打开「管理 → 来源设置」中的对应项目。</p>
           <div class="ob-source-grid" aria-label="选择要配置的平台">
-            <button type="button" class="ob-source" data-ob-panel="codex-panel" aria-pressed="false"><span class="ob-source-icon codex">C</span><span><b>Codex</b><small>查看账户额度</small></span><span class="ob-source-arrow">↗</span></button>
-            <button type="button" class="ob-source" data-ob-panel="go-panel" aria-pressed="false"><span class="ob-source-icon go">G</span><span><b>OpenCode Go</b><small>添加订阅 Key</small></span><span class="ob-source-arrow">↗</span></button>
-            <button type="button" class="ob-source" data-ob-panel="deepseek-platform-panel" aria-pressed="false"><span class="ob-source-icon ds">D</span><span><b>DeepSeek</b><small>查看平台余额</small></span><span class="ob-source-arrow">↗</span></button>
+            <button type="button" class="ob-source" data-ob-panel="codex-panel" aria-pressed="false"><span class="ob-source-icon codex">C</span><span><b>Codex</b><small>查看套餐和账号额度</small></span><span class="ob-source-arrow">↗</span></button>
+            <button type="button" class="ob-source" data-ob-panel="go-panel" aria-pressed="false"><span class="ob-source-icon go">G</span><span><b>OpenCode Go</b><small>按订阅查看额度和模型用量</small></span><span class="ob-source-arrow">↗</span></button>
+            <button type="button" class="ob-source" data-ob-panel="deepseek-platform-panel" aria-pressed="false"><span class="ob-source-icon ds">D</span><span><b>DeepSeek</b><small>查看官方余额和用量</small></span><span class="ob-source-arrow">↗</span></button>
             <button type="button" class="ob-source" data-ob-panel="add-panel" aria-pressed="false"><span class="ob-source-icon relay">＋</span><span><b>中转站</b><small>添加站点与令牌</small></span><span class="ob-source-arrow">↗</span></button>
-          </div><p class="ob-note">只需配置你用到的来源；其他来源可以以后再添加。</p>
+          </div>
         </section>
         <section class="ob-slide" data-step="2" hidden>
-          <span class="ob-eyebrow">第二步 · 认识面板</span><h2 id="ob-title-2">开始之后，看这三个地方</h2>
-          <p class="ob-lead">从整体到细节，慢慢探索就好。</p>
-          <div class="ob-guide-list"><div><span>01</span><p><b>看总览</b><small>查看累计用量和热力图。</small></p></div><div><span>02</span><p><b>看趋势</b><small>查看每天用量、累计变化和各来源占比。</small></p></div><div><span>03</span><p><b>管理来源</b><small>在「管理」中查看额度、添加来源或重开使用介绍。</small></p></div></div>
-          <p class="ob-privacy">配置和凭据保存在本机；查询时会连接你使用的平台。</p>
+          <h2 id="ob-title-2">从侧边栏进入各项功能</h2>
+          <ul class="ob-guide-list">
+            <li><b>总览</b><small>看各来源的累计 Token 用量和热力图。</small></li>
+            <li><b>用量趋势</b><small>看每天与累计用量，下方环形图显示各来源的用量占比。</small></li>
+            <li><b>管理</b><small>在「账户额度」看套餐、重置和 OpenCode Go 的账期模型估算。也可配置来源、导入历史或调整配色。</small></li>
+          </ul>
+          <p class="ob-privacy">配置和凭据保存在本机。想再看本介绍，可打开「管理 → 使用说明」。</p>
         </section>
       </div>
       <div class="ob-foot"><div class="ob-dots" id="ob-dots" aria-hidden="true"></div><div class="ob-actions"><button type="button" class="btn ghost small" id="ob-prev">上一步</button><button type="button" class="btn primary small" id="ob-next">下一步</button></div></div>

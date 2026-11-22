@@ -1,6 +1,6 @@
 {
   "name": "quota-board",
-  "version": "1.9.1",
+  "version": "1.9.2",
   "private": true,
   "type": "module",
   "description": "额度一念：本地查看中转站、Codex、OpenCode Go 和 DeepSeek 的额度与用量",

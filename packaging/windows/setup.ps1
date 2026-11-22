@@ -65,7 +65,7 @@ function Select-InstallRoot([string]$DefaultRoot) {
     '否：选择其他已有的额度一念目录。'
     '更新会保留所选目录里的使用记录和设置。'
   ) -join [Environment]::NewLine
-  $choice = [System.Windows.Forms.MessageBox]::Show($message, '额度一念 1.9.1 安装与更新', 'YesNoCancel', 'Question')
+  $choice = [System.Windows.Forms.MessageBox]::Show($message, '额度一念 1.9.2 安装与更新', 'YesNoCancel', 'Question')
   if ($choice -eq 'Yes') { return $DefaultRoot }
   if ($choice -ne 'No') { return }
   $picker = [System.Windows.Forms.FolderBrowserDialog]::new()
