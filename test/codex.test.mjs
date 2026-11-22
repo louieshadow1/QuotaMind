@@ -6,9 +6,12 @@ import path from 'node:path';
 
 import {
   archivedCodexAccounts,
+  codexAccountAllowsRefresh,
   inspectCodexAuthFile,
+  isLiveAuthPath,
   liveCodexAccount,
   readCodexAccountId,
+  readCodexAuthStatus,
   scanCodexAuthFiles
 } from '../lib/codex.mjs';
 
@@ -82,4 +85,87 @@ test('scanCodexAuthFiles：只返回带 access_token 的文件，并生成名称
   assert.ok(candidates.every((candidate) => candidate.path.startsWith('~')));
   assert.ok(candidates.some((candidate) => candidate.nameGuess === 'work'));
   assert.ok(!JSON.stringify(candidates).includes('tok-'), '扫描结果不能包含令牌');
+});
+
+
+// ============================================================
+// A6：托管账号标记与登录态健康状态（只读，零网络）
+// ============================================================
+
+function a6CodexJwt(payload) {
+  const encode = (obj) => Buffer.from(JSON.stringify(obj)).toString('base64url');
+  return encode({ alg: 'none', typ: 'JWT' }) + '.' + encode(payload) + '.sig';
+}
+
+test('A6-15 readCodexAuthStatus：返回 exp/可续期/accountId，且不含 token', async (t) => {
+  const dir = await tempDir();
+  t.after(() => fs.rm(dir, { recursive: true, force: true }));
+  const iat = Math.floor(Date.now() / 1000);
+  const file = path.join(dir, 'auth.json');
+  await fs.writeFile(
+    file,
+    JSON.stringify({
+      auth_mode: 'chatgpt',
+      last_refresh: new Date().toISOString(),
+      tokens: {
+        access_token: a6CodexJwt({ iat, exp: iat + 10 * 24 * 3600 }),
+        refresh_token: 'rt-status-secret-123456',
+        id_token: a6CodexJwt({ iat, exp: iat + 3600 }),
+        account_id: 'acct-status'
+      }
+    })
+  );
+
+  const status = await readCodexAuthStatus(file);
+  assert.equal(status.exists, true);
+  assert.equal(status.valid, true);
+  assert.equal(status.accountId, 'acct-status');
+  assert.equal(status.canRefresh, true);
+  assert.ok(status.expiresAt);
+  assert.equal(status.expired, false);
+  assert.ok(!JSON.stringify(status).includes('rt-status-secret-123456'));
+  assert.ok(!JSON.stringify(status).includes('eyJ'));
+
+  // 将到期（1 小时）→ needsRefresh=true（默认 24h 提前量）
+  await fs.writeFile(
+    file,
+    JSON.stringify({
+      auth_mode: 'chatgpt',
+      last_refresh: new Date().toISOString(),
+      tokens: { access_token: a6CodexJwt({ iat, exp: iat + 3600 }), refresh_token: 'rt-x', id_token: 'id', account_id: 'acct-status' }
+    })
+  );
+  const soon = await readCodexAuthStatus(file);
+  assert.equal(soon.needsRefresh, true);
+
+  const missing = await readCodexAuthStatus(path.join(dir, 'missing.json'));
+  assert.equal(missing.exists, false);
+  assert.equal(missing.reason, 'missing');
+});
+
+test('A6-16 archivedCodexAccounts：透传 managed/autoRefresh；仅 managed 允许续期', () => {
+  const config = {
+    providers: {
+      codex: {
+        authPath: '~/.codex/auth.json',
+        accounts: [
+          { id: 'm1', name: '托管号', authPath: 'C:/homes/a/auth.json', managed: true, autoRefresh: true },
+          { id: 'a1', name: '旧归档', authPath: 'C:/archived/b.json' },
+          { id: 'a2', name: '关掉续期', authPath: 'C:/archived/c.json', managed: true, autoRefresh: false }
+        ]
+      }
+    }
+  };
+  const accounts = archivedCodexAccounts(config);
+  assert.equal(accounts.length, 3);
+  assert.equal(accounts[0].managed, true);
+  assert.equal(accounts[0].autoRefresh, true);
+  assert.equal(accounts[1].managed, false);
+  assert.equal(accounts[1].autoRefresh, false);
+  assert.equal(codexAccountAllowsRefresh(accounts[0]), true);
+  assert.equal(codexAccountAllowsRefresh(accounts[1]), false);
+  assert.equal(codexAccountAllowsRefresh(accounts[2]), false);
+  assert.equal(codexAccountAllowsRefresh({ managed: true, live: true }), false);
+  assert.equal(isLiveAuthPath('~/.codex/auth.json', config), true);
+  assert.equal(isLiveAuthPath('C:/homes/a/auth.json', config), false);
 });

@@ -8,3 +8,17 @@
 *.ps1 text eol=crlf
 *.cmd text eol=crlf
 *.sh text eol=lf
+
+# Preserve the Windows release build-input bytes in clones and archives.
+/start.ps1 -text !eol
+/packaging/windows/launch.ps1 -text !eol
+/packaging/windows/launch.vbs -text !eol
+/packaging/windows/setup.cmd -text !eol
+/packaging/windows/setup.ps1 -text !eol
+/packaging/windows/verify-upgrade.ps1 -text !eol
+/public/app.js -text !eol
+/public/go-model-limits.json -text !eol
+/public/index.html -text !eol
+
+# The public site can serve its existing demo media separately from code downloads.
+/docs/media export-ignore

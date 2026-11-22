@@ -1,6 +1,6 @@
-﻿#!/usr/bin/env pwsh
+#!/usr/bin/env pwsh
 # quota-board 启动器：自动带上系统代理 + --use-env-proxy
-# 原因：Node 的 fetch 只有启动时读 HTTP(S)_PROXY，而 chatgpt.com 在某些网络环境下需要代理，
+# 原因：Node 的 fetch 只有启动时读 HTTP(S)_PROXY，而 chatgpt.com 在这台机器上必须走代理，
 # 否则 Codex 额度会一直失败、只能显示历史快照。
 param([int]$Port = 8799)
 
@@ -27,16 +27,12 @@ if ($proxy) {
   $env:HTTPS_PROXY = $proxy
   $env:ALL_PROXY = $proxy
   if (-not $env:NO_PROXY) { $env:NO_PROXY = '127.0.0.1,localhost,::1' }
-  Write-Host "[quota-board] 代理：$proxy"
+  Write-Host '[quota-board] 已启用系统代理'
 } else {
   Write-Host '[quota-board] 未检测到系统代理，按直连启动'
 }
 
-$node = (Get-Command node -ErrorAction Stop).Source
-$nodeHelp = (& $node --help | Out-String)
-if ($nodeHelp -match '--use-env-proxy') {
-  & $node --use-env-proxy server.mjs --port $Port 1>> server.log 2>> server.err.log
-} else {
-  Write-Warning '当前 Node 不支持自动读取代理的选项，将尝试直连。'
-  & $node server.mjs --port $Port 1>> server.log 2>> server.err.log
-}
+$node = 'C:\Program Files\nodejs\node.exe'
+if (-not (Test-Path $node)) { $node = 'node' }
+
+& $node --use-env-proxy server.mjs --port $Port 1>> server.log 2>> server.err.log

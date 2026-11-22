@@ -1,0 +1,222 @@
+{
+  "source": "https://opencode.ai/inference/go/v1/models",
+  "retrievedAt": "2026-11-21T22:07:57.027Z",
+  "models": [
+    {
+      "id": "claude-haiku-5-5",
+      "limits": {
+        "go": 15,
+        "go-plus": 60,
+        "go-teams": 20
+      }
+    },
+    {
+      "id": "deepseek-v4-pro",
+      "limits": {
+        "go": 15,
+        "go-plus": 60,
+        "go-teams": 20
+      }
+    },
+    {
+      "id": "deepseek-v4.1-flash",
+      "limits": {
+        "go": 100,
+        "go-plus": 200,
+        "go-teams": 105
+      }
+    },
+    {
+      "id": "gemini-4-argon",
+      "limits": {
+        "go": 30,
+        "go-plus": 120,
+        "go-teams": 35
+      }
+    },
+    {
+      "id": "glm-5.3",
+      "limits": {
+        "go": 500,
+        "go-plus": 1000,
+        "go-teams": 505
+      }
+    },
+    {
+      "id": "glm-5.3-flash",
+      "limits": {
+        "go": 60,
+        "go-plus": 180,
+        "go-teams": 65
+      }
+    },
+    {
+      "id": "gpt-5.6-luna",
+      "limits": {
+        "go": 15,
+        "go-plus": 60,
+        "go-teams": 20
+      }
+    },
+    {
+      "id": "gpt-6-luna",
+      "limits": {
+        "go": 15,
+        "go-plus": 60,
+        "go-teams": 20
+      }
+    },
+    {
+      "id": "grok-4.7",
+      "limits": {
+        "go": 15,
+        "go-plus": 60,
+        "go-teams": 20
+      }
+    },
+    {
+      "id": "hy3",
+      "limits": {
+        "go": 60,
+        "go-plus": 240,
+        "go-teams": 65
+      }
+    },
+    {
+      "id": "hy4",
+      "limits": {
+        "go": 60,
+        "go-plus": 240,
+        "go-teams": 65
+      }
+    },
+    {
+      "id": "hy4-preview",
+      "limits": {
+        "go": 30,
+        "go-plus": 120,
+        "go-teams": 35
+      }
+    },
+    {
+      "id": "kimi-k2.7-code",
+      "limits": {
+        "go": 60,
+        "go-plus": 180,
+        "go-teams": 65
+      }
+    },
+    {
+      "id": "kimi-k3",
+      "limits": {
+        "go": 15,
+        "go-plus": 60,
+        "go-teams": 20
+      }
+    },
+    {
+      "id": "kimi-k3.1-pro",
+      "limits": {
+        "go": 15,
+        "go-plus": 60,
+        "go-teams": 20
+      }
+    },
+    {
+      "id": "longcat-2.0",
+      "limits": {
+        "go": 60,
+        "go-plus": 240,
+        "go-teams": 65
+      }
+    },
+    {
+      "id": "mimo-v2.6-flash",
+      "limits": {
+        "go": 60,
+        "go-plus": 120,
+        "go-teams": 65
+      }
+    },
+    {
+      "id": "mimo-v2.6-pro",
+      "limits": {
+        "go": 15,
+        "go-plus": 60,
+        "go-teams": 20
+      }
+    },
+    {
+      "id": "minimax-m3",
+      "limits": {
+        "go": 60,
+        "go-plus": 180,
+        "go-teams": 65
+      }
+    },
+    {
+      "id": "minimax-m3.1-flash",
+      "limits": {
+        "go": 20,
+        "go-plus": 80,
+        "go-teams": 25
+      }
+    },
+    {
+      "id": "muse-spark-1.2-contributor",
+      "limits": {
+        "go": 60,
+        "go-plus": 120,
+        "go-teams": 65
+      }
+    },
+    {
+      "id": "muse-spark-1.3-contributor",
+      "limits": {
+        "go": 60,
+        "go-plus": 120,
+        "go-teams": 65
+      }
+    },
+    {
+      "id": "qwen3.7-plus",
+      "limits": {
+        "go": 60,
+        "go-plus": 180,
+        "go-teams": 65
+      }
+    },
+    {
+      "id": "qwen3.8-flash",
+      "limits": {
+        "go": 30,
+        "go-plus": 90,
+        "go-teams": 35
+      }
+    },
+    {
+      "id": "qwen3.8-max",
+      "limits": {
+        "go": 15,
+        "go-plus": 60,
+        "go-teams": 20
+      }
+    },
+    {
+      "id": "qwen4-max",
+      "limits": {
+        "go": 15,
+        "go-plus": 60,
+        "go-teams": 20
+      }
+    },
+    {
+      "id": "step-5-preview",
+      "limits": {
+        "go": 15,
+        "go-plus": 60,
+        "go-teams": 20
+      }
+    }
+  ]
+}

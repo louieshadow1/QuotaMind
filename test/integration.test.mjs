@@ -6,6 +6,15 @@ import os from 'node:os';
 import path from 'node:path';
 import { startServer } from '../server.mjs';
 
+// F5：本文件的 mock 上游故意监听在 127.0.0.1，需要显式打开「允许私网中转」测试开关；
+// 生产默认拒绝回环/私网/元数据地址。测试结束后恢复原值，避免影响同进程的其它用例。
+const savedAllowPrivateRelay = process.env.QUOTA_BOARD_ALLOW_PRIVATE_RELAY;
+process.env.QUOTA_BOARD_ALLOW_PRIVATE_RELAY = '1';
+test.after(() => {
+  if (savedAllowPrivateRelay === undefined) delete process.env.QUOTA_BOARD_ALLOW_PRIVATE_RELAY;
+  else process.env.QUOTA_BOARD_ALLOW_PRIVATE_RELAY = savedAllowPrivateRelay;
+});
+
 function mockNewApiUpstream() {
   const server = http.createServer((req, res) => {
     if (req.url === '/api/user/self') {

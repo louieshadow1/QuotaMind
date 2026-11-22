@@ -10,3 +10,7 @@ node_modules/
 *.log
 .DS_Store
 Thumbs.db
+
+# Local installers and launch output belong outside source control.
+/dist/
+/output/

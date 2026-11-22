@@ -32,7 +32,9 @@ Available fields depend on each service and your setup. Official responses, loca
 
 Download [the latest Windows x64 installer](https://github.com/louieshadow1/QuotaMind/releases/latest), quit any older running version, and open `QuotaMind-Setup.exe`. Once installed, launch **额度一念** from the Start menu. Node.js is included.
 
-The installer is currently unsigned, so Windows may display an unknown-publisher warning.
+To upgrade in place, select the folder where you already run QuotaMind. Choose **Yes** for the default `%LOCALAPPDATA%\quota-board` folder or **No** to select your own folder. Existing accounts, settings and usage history stay with that installation.
+
+The [v1.9.1 release](https://github.com/louieshadow1/QuotaMind/releases/tag/v1.9.1) provides the Windows installer and its matching source. The installer is unsigned, so Windows may display an unknown-publisher warning.
 
 ### Run from source
 

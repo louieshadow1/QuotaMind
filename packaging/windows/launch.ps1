@@ -3,6 +3,9 @@ param([int]$Port = 8799)
 $ErrorActionPreference = 'Continue'
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 Set-Location $root
+$dataRoot = $env:QUOTA_BOARD_DATA
+if (-not $dataRoot) { $dataRoot = 'data' }
+if (-not [IO.Path]::IsPathRooted($dataRoot)) { $dataRoot = Join-Path $root $dataRoot }
 $script:serverProc = $null
 
 function Test-Up {
@@ -73,7 +76,13 @@ $null = $menu.Items.Add('-');
 $itemExit = $menu.Items.Add('关闭 / 退出…')
 
 $itemOpen.add_Click({ Start-Process "http://127.0.0.1:$Port/" })
-$itemDir.add_Click({ Start-Process explorer.exe $root })
+$itemDir.add_Click({
+  if (Test-Path -LiteralPath $dataRoot -PathType Container) {
+    Start-Process explorer.exe -ArgumentList ('"' + $dataRoot + '"')
+  } else {
+    [System.Windows.Forms.MessageBox]::Show('数据目录还没有创建。', '额度一念') | Out-Null
+  }
+})
 $itemExit.add_Click({
   $msg = "要最小化到托盘继续运行，还是退出并停止服务？"
   $msg += [Environment]::NewLine + [Environment]::NewLine
