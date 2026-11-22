@@ -42,6 +42,8 @@
 
 ## v1.9.1 更新了什么
 
+![额度一念 v1.9.1 五项功能更新。界面为示意，数值为模拟数据。](docs/media/quotamind-v1.9.1-highlights.png)
+
 这些变化以 [v1.8.1](https://github.com/louieshadow1/QuotaMind/tree/v1.8.1) 为基线。v1.9.1 的源码和 Windows 安装包都可从 [发布页](https://github.com/louieshadow1/QuotaMind/releases/tag/v1.9.1) 下载。
 
 | 功能 | v1.8.1 → v1.9.1 |
